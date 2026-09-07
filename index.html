@@ -9,7 +9,7 @@
 </head>
 <body class="bg-slate-100 min-h-screen text-slate-800">
 
-<div id="app" class="max-w-md mx-auto min-h-screen bg-white shadow-md flex flex-col relative overflow-hidden">
+<div id="app" class="max-w-md mx-auto h-screen bg-white shadow-md flex flex-col relative overflow-hidden">
 
   <!-- Toast Notification -->
   <transition enter-active-class="transition duration-300 ease-out" enter-from-class="-translate-y-full opacity-0" enter-to-class="translate-y-0 opacity-100" leave-active-class="transition duration-200 ease-in" leave-from-class="translate-y-0 opacity-100" leave-to-class="-translate-y-full opacity-0">
@@ -21,7 +21,7 @@
   <!-- Modal: ประวัติรายชื่อผู้เล่น (History Modal) -->
   <div v-if="showHistoryModal" class="absolute inset-0 z-40 bg-slate-900/60 flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-xl shadow-xl overflow-hidden flex flex-col max-h-[80vh]">
-      <div class="p-4 border-b bg-indigo-50 flex justify-between items-center">
+      <div class="p-4 border-b bg-indigo-50 flex justify-between items-center shrink-0">
         <div>
           <h3 class="font-bold text-indigo-900">รายชื่อผู้เล่น</h3>
           <p class="text-xs text-indigo-600">{{ formatDate(selectedHistory?.createdAt) }}</p>
@@ -47,13 +47,13 @@
 
   <!-- Modal: หาคู่ลงเล่น (Court Match) -->
   <div v-if="showMatchModal" class="absolute inset-0 z-40 bg-slate-900/60 flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-sm rounded-xl shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
-      <div class="p-4 border-b bg-indigo-50 flex justify-between items-center">
+    <div class="bg-white w-full max-w-sm rounded-xl shadow-xl overflow-hidden flex flex-col" :class="manualMatchMode ? 'h-[85vh]' : 'max-h-[90vh]'">
+      <div class="p-4 border-b bg-indigo-50 flex justify-between items-center shrink-0">
         <h3 class="font-bold text-indigo-900">หาคู่ลงเล่น</h3>
         <button @click="closeMatchModal" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
       </div>
 
-      <div class="p-4 overflow-y-auto flex-1">
+      <div class="p-4 flex-1 flex flex-col overflow-hidden">
         <div v-if="!manualMatchMode" class="space-y-3">
           <button @click="autoMatch" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl shadow flex flex-col items-center gap-1">
             <span class="text-lg">⚡ หาคู่ลงอัตโนมัติ</span>
@@ -65,9 +65,10 @@
           </button>
         </div>
 
-        <div v-else-if="isEvenMode" class="flex flex-col h-full">
-          <p class="text-xs text-slate-500 mb-3 text-center">กรุณาเลือก 2 คู่ลงสนาม (เลือกแล้ว: {{ tempSelectedPairKeys.length }}/2 คู่)</p>
-          <div class="space-y-2 mb-4">
+        <div v-else-if="isEvenMode" class="flex flex-col h-full overflow-hidden">
+          <p class="text-xs text-slate-500 mb-3 text-center shrink-0">กรุณาเลือก 2 คู่ลงสนาม (เลือกแล้ว: {{ tempSelectedPairKeys.length }}/2 คู่)</p>
+
+          <div class="flex-1 overflow-y-auto pr-1 mb-3 space-y-2">
             <label v-for="(pair, idx) in waitingPairQueue" :key="pair.key"
                    class="flex items-center justify-between p-3 rounded-lg border cursor-pointer transition"
                    :class="[
@@ -86,7 +87,8 @@
               ไม่มีคิวคู่ที่พร้อมลงเล่น
             </div>
           </div>
-          <div class="mt-auto pt-2 grid grid-cols-2 gap-2">
+
+          <div class="mt-auto pt-2 grid grid-cols-2 gap-2 border-t shrink-0">
             <button @click="manualMatchMode = false" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 rounded-lg text-sm">ย้อนกลับ</button>
             <button @click="confirmManualPairMatch" :disabled="tempSelectedPairKeys.length !== 2"
                     class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-sm disabled:bg-slate-300 disabled:text-slate-500">
@@ -95,9 +97,10 @@
           </div>
         </div>
 
-        <div v-else class="flex flex-col h-full">
-          <p class="text-xs text-slate-500 mb-3 text-center">กรุณาเลือกผู้เล่นให้ครบ 4 คน (เลือกแล้ว: {{ tempSelectedPlayers.length }}/4)</p>
-          <div class="space-y-2 mb-4">
+        <div v-else class="flex flex-col h-full overflow-hidden">
+          <p class="text-xs text-slate-500 mb-3 text-center shrink-0">กรุณาเลือกผู้เล่นให้ครบ 4 คน (เลือกแล้ว: {{ tempSelectedPlayers.length }}/4)</p>
+
+          <div class="flex-1 overflow-y-auto pr-1 mb-3 space-y-2">
             <label v-for="player in activePlayers" :key="player.id"
                    class="flex items-center justify-between p-3 rounded-lg border transition"
                    :class="[
@@ -115,7 +118,8 @@
                      class="w-5 h-5 text-indigo-600 rounded">
             </label>
           </div>
-          <div class="mt-auto pt-2 grid grid-cols-2 gap-2">
+
+          <div class="mt-auto pt-2 grid grid-cols-2 gap-2 border-t shrink-0">
             <button @click="manualMatchMode = false" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 rounded-lg text-sm">ย้อนกลับ</button>
             <button @click="confirmManualMatch" :disabled="tempSelectedPlayers.length !== 4"
                     class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-sm disabled:bg-slate-300 disabled:text-slate-500">
@@ -129,13 +133,13 @@
 
   <!-- Modal: จับคู่ผู้เล่น -->
   <div v-if="showPairModal" class="absolute inset-0 z-40 bg-slate-900/60 flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-sm rounded-xl shadow-xl overflow-hidden flex flex-col max-h-[90vh]">
-      <div class="p-4 border-b bg-emerald-50 flex justify-between items-center">
+    <div class="bg-white w-full max-w-sm rounded-xl shadow-xl overflow-hidden flex flex-col" :class="manualPairMode ? 'h-[85vh]' : 'max-h-[90vh]'">
+      <div class="p-4 border-b bg-emerald-50 flex justify-between items-center shrink-0">
         <h3 class="font-bold text-emerald-900">จับคู่ผู้เล่น (โหมดคู่)</h3>
         <button @click="closePairModal" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
       </div>
 
-      <div class="p-4 overflow-y-auto flex-1">
+      <div class="p-4 flex-1 flex flex-col overflow-hidden">
         <div v-if="!manualPairMode" class="space-y-3">
           <button @click="autoPair" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl shadow flex flex-col items-center gap-1">
             <span class="text-lg">⚡ จับคู่อัตโนมัติ</span>
@@ -147,9 +151,10 @@
           </button>
         </div>
 
-        <div v-else class="flex flex-col h-full">
-          <p class="text-xs text-slate-500 mb-3 text-center">กรุณาเลือกผู้เล่น 2 คนเพื่อจับคู่ (เลือกแล้ว: {{ tempSelectedPair.length }}/2)</p>
-          <div class="space-y-2 mb-4">
+        <div v-else class="flex flex-col h-full overflow-hidden">
+          <p class="text-xs text-slate-500 mb-3 text-center shrink-0">กรุณาเลือกผู้เล่น 2 คนเพื่อจับคู่ (เลือกแล้ว: {{ tempSelectedPair.length }}/2)</p>
+
+          <div class="flex-1 overflow-y-auto pr-1 mb-3 space-y-2">
             <label v-for="player in unpairedPlayers" :key="player.id"
                    class="flex items-center justify-between p-3 rounded-lg border cursor-pointer transition"
                    :class="[
@@ -168,7 +173,8 @@
               ทุกคนมีคู่หมดแล้ว
             </div>
           </div>
-          <div class="mt-auto pt-2 grid grid-cols-2 gap-2">
+
+          <div class="mt-auto pt-2 grid grid-cols-2 gap-2 border-t shrink-0">
             <button @click="manualPairMode = false" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 rounded-lg text-sm">ย้อนกลับ</button>
             <button @click="confirmManualPair" :disabled="tempSelectedPair.length !== 2"
                     class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg text-sm disabled:bg-slate-300 disabled:text-slate-500">
@@ -180,13 +186,13 @@
     </div>
   </div>
 
-  <header class="bg-indigo-600 text-white p-4 text-center font-bold text-lg shadow flex justify-between items-center">
+  <header class="bg-indigo-600 text-white p-4 text-center font-bold text-lg shadow flex justify-between items-center shrink-0 z-30">
     <span>BadQ</span>
     <button v-if="currentScreen !== 'home'" @click="currentScreen = 'home'" class="text-xs bg-indigo-700 hover:bg-indigo-800 px-3 py-1.5 rounded-lg border border-indigo-400">🏠 หน้าหลัก</button>
   </header>
 
   <!-- SCREEN 0: หน้าหลัก (Main Menu) -->
-  <main v-if="currentScreen === 'home'" class="p-6 flex-1 flex flex-col items-center justify-center bg-slate-100">
+  <main v-if="currentScreen === 'home'" class="p-6 flex-1 flex flex-col items-center justify-center bg-slate-100 overflow-y-auto">
     <div class="w-48 mb-8 flex justify-center items-center">
       <img src="BadQ-Logo.png" alt="BadQ Logo" class="w-full h-auto object-contain mix-blend-multiply">
     </div>
@@ -205,8 +211,8 @@
   </main>
 
   <!-- SCREEN: ข้อมูลการเล่น (History) -->
-  <main v-if="currentScreen === 'history'" class="p-4 flex-1 flex flex-col">
-    <div class="flex justify-between items-center mb-4">
+  <main v-if="currentScreen === 'history'" class="p-4 flex-1 flex flex-col overflow-hidden">
+    <div class="flex justify-between items-center mb-4 shrink-0">
       <h2 class="text-xl font-bold text-slate-700">ประวัติข้อมูลการเล่น</h2>
       <button v-if="histories.length > 0" @click="deleteAllHistory" class="text-xs bg-rose-100 hover:bg-rose-200 text-rose-600 px-3 py-1.5 rounded-lg font-bold transition border border-rose-200">
         🗑️ ลบประวัติทั้งหมด
@@ -218,7 +224,7 @@
       <p>ยังไม่มีข้อมูลการเล่นที่จบไปแล้ว</p>
     </div>
 
-    <div v-else class="space-y-3 overflow-y-auto pb-4">
+    <div v-else class="flex-1 overflow-y-auto pr-1 pb-4 space-y-3">
       <div v-for="h in histories" :key="h.id" class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm relative">
         <div class="flex justify-between items-start mb-3 pb-3 border-b border-slate-100">
           <div>
@@ -246,38 +252,43 @@
   </main>
 
   <!-- SCREEN 1: จัดการสมาชิก (Roster) -->
-  <main v-if="currentScreen === 'roster'" class="p-4 flex-1">
-    <h2 class="text-xl font-bold text-slate-700 mb-4">รายชื่อสมาชิกทั้งหมด</h2>
+  <main v-if="currentScreen === 'roster'" class="p-4 flex-1 flex flex-col overflow-hidden">
+    <h2 class="text-xl font-bold text-slate-700 mb-4 shrink-0">รายชื่อสมาชิกทั้งหมด</h2>
 
-    <form @submit.prevent="addMember" class="flex gap-2 mb-6">
+    <form @submit.prevent="addMember" class="flex gap-2 mb-6 shrink-0">
       <input v-model="newMemberName" type="text" placeholder="ใส่ชื่อเล่น..." class="flex-1 border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
       <button type="submit" :disabled="loading" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded-lg transition disabled:bg-slate-400">+ เพิ่ม</button>
     </form>
-    <div v-if="loading" class="text-center py-4 text-slate-500">กำลังโหลดข้อมูล...</div>
-    <ul v-else class="space-y-2">
-      <li v-for="member in members" :key="member.id" class="flex items-center justify-between bg-slate-50 border border-slate-200 p-3 rounded-lg">
-        <template v-if="editingId !== member.id">
-          <span class="font-medium text-slate-700">{{ member.name }}</span>
-          <div class="flex gap-2">
-            <button @click="startEdit(member)" class="text-slate-400 hover:text-indigo-600 text-sm font-medium px-2 py-1">แก้ไข</button>
-            <button @click="deleteMember(member.id)" class="text-slate-400 hover:text-red-600 text-sm font-medium px-2 py-1">ลบ</button>
-          </div>
-        </template>
-        <template v-else>
-          <input v-model="editName" type="text" class="border border-indigo-400 rounded px-2 py-1 flex-1 mr-2 text-sm focus:outline-none" @keyup.enter="saveEdit(member.id)">
-          <div class="flex gap-1">
-            <button @click="saveEdit(member.id)" class="bg-emerald-600 text-white text-xs px-2 py-1 rounded">บันทึก</button>
-            <button @click="cancelEdit" class="bg-slate-300 text-slate-700 text-xs px-2 py-1 rounded">ยกเลิก</button>
-          </div>
-        </template>
-      </li>
-    </ul>
+
+    <div v-if="loading" class="text-center py-4 text-slate-500 shrink-0">กำลังโหลดข้อมูล...</div>
+
+    <div v-else class="flex-1 overflow-y-auto pr-1">
+      <ul class="space-y-2">
+        <li v-for="member in members" :key="member.id" class="flex items-center justify-between bg-slate-50 border border-slate-200 p-3 rounded-lg">
+          <template v-if="editingId !== member.id">
+            <span class="font-medium text-slate-700">{{ member.name }}</span>
+            <div class="flex gap-2">
+              <button @click="startEdit(member)" class="text-slate-400 hover:text-indigo-600 text-sm font-medium px-2 py-1">แก้ไข</button>
+              <button @click="deleteMember(member.id)" class="text-slate-400 hover:text-red-600 text-sm font-medium px-2 py-1">ลบ</button>
+            </div>
+          </template>
+          <template v-else>
+            <input v-model="editName" type="text" class="border border-indigo-400 rounded px-2 py-1 flex-1 mr-2 text-sm focus:outline-none" @keyup.enter="saveEdit(member.id)">
+            <div class="flex gap-1">
+              <button @click="saveEdit(member.id)" class="bg-emerald-600 text-white text-xs px-2 py-1 rounded">บันทึก</button>
+              <button @click="cancelEdit" class="bg-slate-300 text-slate-700 text-xs px-2 py-1 rounded">ยกเลิก</button>
+            </div>
+          </template>
+        </li>
+      </ul>
+    </div>
   </main>
 
   <!-- SCREEN 2: เช็กชื่อผู้เล่น (Check-in) -->
-  <main v-if="currentScreen === 'checkin'" class="p-4 flex-1">
-    <h2 class="text-xl font-bold mb-2 text-slate-700">เช็กชื่อผู้เล่นวันนี้</h2>
-    <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4 mb-4 flex justify-between items-center">
+  <main v-if="currentScreen === 'checkin'" class="p-4 flex-1 flex flex-col overflow-hidden">
+    <h2 class="text-xl font-bold mb-2 text-slate-700 shrink-0">เช็กชื่อผู้เล่นวันนี้</h2>
+
+    <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4 mb-4 flex justify-between items-center shrink-0">
       <div>
         <span class="text-xs text-indigo-600 font-semibold block">จำนวนผู้เล่นวันนี้</span>
         <span class="text-2xl font-black text-indigo-900">{{ selectedPlayerIds.length }} <span class="text-sm font-normal text-slate-600">คน</span></span>
@@ -290,21 +301,23 @@
       </div>
     </div>
 
-    <p v-if="selectedPlayerIds.length < 8" class="text-xs text-rose-500 font-bold mb-3 bg-rose-50 p-2 rounded border border-rose-200">
+    <p v-if="selectedPlayerIds.length < 8" class="text-xs text-rose-500 font-bold mb-3 bg-rose-50 p-2 rounded border border-rose-200 shrink-0">
       ⚠️ ต้องมีผู้เล่นอย่างน้อย 8 คน ถึงจะสามารถเริ่มจัดคิวได้
     </p>
 
-    <div class="space-y-2 mb-6">
-      <label v-for="member in members" :key="member.id" class="flex items-center justify-between p-3 rounded-lg border cursor-pointer transition" :class="selectedPlayerIds.includes(member.id) ? 'bg-indigo-50 border-indigo-300 font-bold text-indigo-900' : 'bg-slate-50 border-slate-200 text-slate-700'">
-        <span>{{ member.name }}</span>
-        <input type="checkbox" :value="member.id" v-model="selectedPlayerIds" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500">
-      </label>
+    <div class="flex-1 overflow-y-auto pr-1 mb-2">
+      <div class="space-y-2">
+        <label v-for="member in members" :key="member.id" class="flex items-center justify-between p-3 rounded-lg border cursor-pointer transition" :class="selectedPlayerIds.includes(member.id) ? 'bg-indigo-50 border-indigo-300 font-bold text-indigo-900' : 'bg-slate-50 border-slate-200 text-slate-700'">
+          <span>{{ member.name }}</span>
+          <input type="checkbox" :value="member.id" v-model="selectedPlayerIds" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500">
+        </label>
+      </div>
     </div>
   </main>
 
   <!-- SCREEN 3: จัดการสนามและคิว (Dashboard) -->
-  <main v-if="currentScreen === 'dashboard'" class="p-4 flex-1 flex flex-col gap-4">
-    <div class="bg-slate-800 text-white p-3 rounded-xl flex items-center justify-between shadow">
+  <main v-if="currentScreen === 'dashboard'" class="p-4 flex-1 flex flex-col gap-4 overflow-y-auto">
+    <div class="bg-slate-800 text-white p-3 rounded-xl flex items-center justify-between shadow shrink-0">
       <div class="flex items-center gap-2">
         <span class="text-xl">🏸</span>
         <div>
@@ -318,7 +331,7 @@
       </div>
     </div>
 
-    <div v-if="isEvenMode" class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 flex justify-between items-center">
+    <div v-if="isEvenMode" class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 flex justify-between items-center shrink-0">
       <div>
         <span class="text-xs text-emerald-800 font-bold block">ระบบจับคู่</span>
         <span class="text-xs text-slate-600">จับคู่แล้ว: {{ pairedCount }}/{{ activePlayers.length }} คน</span>
@@ -333,7 +346,7 @@
       </div>
     </div>
 
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center shrink-0">
       <span class="text-xs text-slate-500">ผู้เล่นวันนี้: <strong>{{ activePlayers.length }} คน</strong></span>
       <div class="flex gap-2">
         <button @click="currentScreen = 'checkin'" class="text-xs bg-slate-200 hover:bg-slate-300 px-3 py-1.5 rounded-lg font-medium text-slate-700">➕ เช็กชื่อเพิ่ม/ออก</button>
@@ -341,7 +354,7 @@
       </div>
     </div>
 
-    <div class="space-y-3">
+    <div class="space-y-3 shrink-0">
       <div v-for="(court, index) in courts" :key="court.id" class="border-2 border-indigo-200 rounded-xl p-3 bg-indigo-50/30">
         <div class="flex justify-between items-center mb-2">
           <span class="font-bold text-indigo-900 text-sm">{{ court.name }}</span>
@@ -388,7 +401,7 @@
       </div>
     </div>
 
-    <div class="mt-2">
+    <div class="mt-2 shrink-0 pb-4">
       <h3 class="text-sm font-bold text-slate-700 mb-2">คิวรอเล่น ({{ isEvenMode ? 'จัดตามคู่' : 'จัดตามบุคคล' }})</h3>
 
       <div v-if="isEvenMode" class="bg-slate-50 border rounded-xl p-3 space-y-1.5">
@@ -410,45 +423,51 @@
   </main>
 
   <!-- SCREEN 4: สรุปผลการเล่น (Stats & Summary) -->
-  <main v-if="currentScreen === 'summary'" class="p-4 flex-1 flex flex-col gap-4">
-    <div class="flex justify-between items-center">
+  <main v-if="currentScreen === 'summary'" class="p-4 flex-1 flex flex-col gap-4 overflow-hidden">
+    <div class="flex justify-between items-center shrink-0">
       <h2 class="text-xl font-bold text-slate-700">สรุปผลกิจกรรมวันนี้</h2>
       <button @click="currentScreen = 'dashboard'" class="text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 px-2.5 py-1.5 rounded-lg font-medium">← กลับหน้าสนาม</button>
     </div>
-    <div class="bg-slate-800 text-white p-4 rounded-xl flex items-center justify-between shadow">
+
+    <div class="bg-slate-800 text-white p-4 rounded-xl flex items-center justify-between shadow shrink-0">
       <div>
         <span class="text-xs text-slate-400 block">ลูกแบดมินตันที่ใช้ทั้งหมด</span>
         <span class="text-2xl font-black text-amber-400">{{ shuttlecockCount }} <span class="text-sm font-normal text-slate-300">ลูก</span></span>
       </div>
       <span class="text-3xl">🏸</span>
     </div>
-    <div class="bg-white border rounded-xl overflow-hidden shadow-sm">
-      <div class="bg-indigo-50 p-3 border-b border-indigo-100 font-bold text-indigo-900 text-sm flex justify-between">
+
+    <div class="bg-white border rounded-xl overflow-hidden shadow-sm flex-1 flex flex-col min-h-0">
+      <div class="bg-indigo-50 p-3 border-b border-indigo-100 font-bold text-indigo-900 text-sm flex justify-between shrink-0">
         <span>รายชื่อผู้เล่นที่ลงเล่นวันนี้ ({{ sortedSummaryPlayers.length }} คน)</span>
         <span>จำนวนเกมที่เล่น</span>
       </div>
-      <ul class="divide-y divide-slate-100">
-        <li v-for="player in sortedSummaryPlayers" :key="player.id" class="p-3 flex justify-between items-center text-sm">
-          <div class="flex items-center gap-2">
-            <span class="font-medium text-slate-800">{{ player.name }}</span>
-            <span v-if="!activePlayers.some(ap => ap.id === player.id)" class="text-[10px] bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded font-bold">
-                                กลับก่อน
-                            </span>
-          </div>
-          <span class="bg-indigo-100 text-indigo-800 font-bold px-3 py-1 rounded-full text-xs">{{ player.gameCount }} เกม</span>
-        </li>
-        <li v-if="sortedSummaryPlayers.length === 0" class="p-6 text-center text-slate-400 text-sm">
-          ยังไม่มีข้อมูลการแข่งขันวันนี้
-        </li>
-      </ul>
+
+      <div class="flex-1 overflow-y-auto">
+        <ul class="divide-y divide-slate-100">
+          <li v-for="player in sortedSummaryPlayers" :key="player.id" class="p-3 flex justify-between items-center text-sm">
+            <div class="flex items-center gap-2">
+              <span class="font-medium text-slate-800">{{ player.name }}</span>
+              <span v-if="!activePlayers.some(ap => ap.id === player.id)" class="text-[10px] bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded font-bold">
+                                  กลับก่อน
+                              </span>
+            </div>
+            <span class="bg-indigo-100 text-indigo-800 font-bold px-3 py-1 rounded-full text-xs">{{ player.gameCount }} เกม</span>
+          </li>
+          <li v-if="sortedSummaryPlayers.length === 0" class="p-6 text-center text-slate-400 text-sm">
+            ยังไม่มีข้อมูลการแข่งขันวันนี้
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="mt-auto pt-4 border-t">
+
+    <div class="mt-auto pt-2 border-t shrink-0">
       <button @click="endDaySession" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-xl shadow transition text-center">🏁 จบกิจกรรมวันนี้ (ล้างและบันทึกสถิติ)</button>
     </div>
   </main>
 
   <!-- Footers ของหน้าเช็กชื่อ -->
-  <footer v-if="currentScreen === 'checkin'" class="p-4 border-t bg-slate-50 flex gap-2">
+  <footer v-if="currentScreen === 'checkin'" class="p-4 border-t bg-slate-50 flex gap-2 shrink-0">
     <button @click="currentScreen = 'home'" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-3 rounded-xl">ยกเลิก</button>
     <button @click="confirmCheckin" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow transition" :disabled="selectedPlayerIds.length < 8" :class="{'opacity-50 cursor-not-allowed bg-slate-400': selectedPlayerIds.length < 8}">ยืนยันและไปหน้าสนาม</button>
   </footer>
