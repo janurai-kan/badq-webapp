@@ -16,9 +16,9 @@
         }
     </style>
 </head>
-<body class="bg-slate-100 min-h-screen text-slate-800">
+<body class="bg-slate-100 min-h-[100dvh] text-slate-800">
 
-<div id="app" class="max-w-md mx-auto h-screen bg-white shadow-md flex flex-col relative overflow-hidden">
+<div id="app" class="max-w-md mx-auto h-[100dvh] bg-white shadow-md flex flex-col relative overflow-hidden">
 
     <!-- Toast Notification -->
     <transition enter-active-class="transition duration-300 ease-out" enter-from-class="-translate-y-full opacity-0"
@@ -32,7 +32,7 @@
 
     <!-- Modal: จัดการลำดับคิว (Reorder Modal) -->
     <div v-if="showReorderModal" class="absolute inset-0 z-50 bg-slate-900/60 flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-sm rounded-xl shadow-xl overflow-hidden flex flex-col max-h-[85vh]">
+        <div class="bg-white w-full max-w-sm rounded-xl shadow-xl overflow-hidden flex flex-col max-h-[85dvh]">
             <div class="p-4 border-b bg-indigo-50 flex justify-between items-center shrink-0">
                 <h3 class="font-bold text-indigo-900">🔄 จัดการลำดับคิว</h3>
                 <button @click="closeReorderModal" class="text-slate-400 hover:text-slate-600 font-bold text-lg">✕
@@ -172,7 +172,7 @@
 
     <!-- Modal: ประวัติรายชื่อผู้เล่น (History Modal) -->
     <div v-if="showHistoryModal" class="absolute inset-0 z-40 bg-slate-900/60 flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-sm rounded-xl shadow-xl overflow-hidden flex flex-col max-h-[80vh]">
+        <div class="bg-white w-full max-w-sm rounded-xl shadow-xl overflow-hidden flex flex-col max-h-[80dvh]">
             <div class="p-4 border-b bg-indigo-50 flex justify-between items-center shrink-0">
                 <div>
                     <h3 class="font-bold text-indigo-900">รายชื่อผู้เล่น</h3>
@@ -202,7 +202,7 @@
     <!-- Modal: หาคู่ลงเล่น (Court Match) -->
     <div v-if="showMatchModal" class="absolute inset-0 z-40 bg-slate-900/60 flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-sm rounded-xl shadow-xl overflow-hidden flex flex-col"
-             :class="manualMatchMode ? 'h-[85vh]' : 'max-h-[90vh]'">
+             :class="manualMatchMode ? 'h-[85dvh]' : 'max-h-[90dvh]'">
             <div class="p-4 border-b bg-indigo-50 flex justify-between items-center shrink-0">
                 <h3 class="font-bold text-indigo-900">หาคู่ลงเล่น</h3>
                 <button @click="closeMatchModal" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
@@ -322,7 +322,7 @@
     <!-- Modal: จับคู่ผู้เล่น -->
     <div v-if="showPairModal" class="absolute inset-0 z-40 bg-slate-900/60 flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-sm rounded-xl shadow-xl overflow-hidden flex flex-col"
-             :class="manualPairMode ? 'h-[85vh]' : 'max-h-[90vh]'">
+             :class="manualPairMode ? 'h-[85dvh]' : 'max-h-[90dvh]'">
             <div class="p-4 border-b bg-emerald-50 flex justify-between items-center shrink-0">
                 <h3 class="font-bold text-emerald-900">จับคู่ผู้เล่น (โหมดคู่)</h3>
                 <button @click="closePairModal" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
