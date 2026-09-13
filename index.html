@@ -9,8 +9,8 @@
     <link rel="manifest" href="manifest.json">
 
     <!-- Favicon & Web App Icons (iOS / Desktop) -->
-    <link rel="icon" type="image/jpeg" href="badQ-web-icon.jpeg">
-    <link rel="apple-touch-icon" href="badQ-web-icon.jpeg">
+    <link rel="icon" type="image/jpeg" href="assets/badQ-web-icon.jpeg">
+    <link rel="apple-touch-icon" href="assets/badQ-web-icon.jpeg">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -52,7 +52,6 @@
     <!-- Modal: แจ้งเตือน/ยืนยัน (Custom Confirm & Alert Modal) -->
     <div v-if="confirmModal.show" class="absolute inset-0 z-[60] bg-slate-900/60 flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-[320px] rounded-2xl shadow-xl overflow-hidden flex flex-col p-6 text-center">
-            <!-- Icon Area -->
             <div v-if="confirmModal.type === 'danger'" class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-rose-100 mb-4 text-rose-500">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -69,11 +68,9 @@
                 </svg>
             </div>
 
-            <!-- Text Area -->
             <h3 class="text-lg font-bold text-slate-800 mb-2">{{ confirmModal.title }}</h3>
             <p class="text-sm text-slate-500 mb-6 leading-relaxed">{{ confirmModal.message }}</p>
 
-            <!-- Buttons Area -->
             <div :class="confirmModal.isAlert ? 'flex justify-center' : 'grid grid-cols-2 gap-3'" class="mt-auto">
                 <button v-if="!confirmModal.isAlert" @click="closeConfirm"
                         class="w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold py-2.5 rounded-xl transition shadow-sm text-sm">
@@ -93,8 +90,7 @@
         <div class="bg-white w-full max-w-sm rounded-xl shadow-xl overflow-hidden flex flex-col max-h-[85dvh]">
             <div class="p-4 border-b bg-indigo-50 flex justify-between items-center shrink-0">
                 <h3 class="font-bold text-indigo-900">🔄 จัดการลำดับคิว</h3>
-                <button @click="closeReorderModal" class="text-slate-400 hover:text-slate-600 font-bold text-lg">✕
-                </button>
+                <button @click="closeReorderModal" class="text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
             </div>
 
             <div class="p-4 overflow-y-auto flex-1 space-y-2 relative">
@@ -118,25 +114,16 @@
 
                         <div class="flex items-center gap-2 overflow-hidden mr-1 pointer-events-none">
                             <template v-if="isEvenMode">
-                                <span v-if="idx === 0"
-                                      class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-300 shrink-0">⭐ การันตี</span>
-                                <span v-else-if="idx > 0 && idx <= 2"
-                                      class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-300 shrink-0">🎲 สุ่มคิว</span>
-                                <span v-else
-                                      class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-200 shrink-0">{{ idx + 1
-                                    }}</span>
+                                <span v-if="idx === 0" class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-300 shrink-0">⭐ การันตี</span>
+                                <span v-else-if="idx > 0 && idx <= 2" class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-300 shrink-0">🎲 สุ่มคิว</span>
+                                <span v-else class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-200 shrink-0">{{ idx + 1 }}</span>
                             </template>
                             <template v-else>
-                                <span v-if="idx < 2"
-                                      class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-300 shrink-0">⭐ การันตี</span>
-                                <span v-else-if="idx >= 2 && idx < 6"
-                                      class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-300 shrink-0">🎲 สุ่มคิว</span>
-                                <span v-else
-                                      class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-200 shrink-0">{{ idx + 1
-                                    }}</span>
+                                <span v-if="idx < 2" class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-300 shrink-0">⭐ การันตี</span>
+                                <span v-else-if="idx >= 2 && idx < 6" class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-300 shrink-0">🎲 สุ่มคิว</span>
+                                <span v-else class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-200 shrink-0">{{ idx + 1 }}</span>
                             </template>
-                            <span class="font-bold text-slate-800 text-xs truncate">{{ isEvenMode ? item.player1.name + ' & ' + item.player2.name : item.name
-                                }}</span>
+                            <span class="font-bold text-slate-800 text-xs truncate">{{ isEvenMode ? item.player1.name + ' & ' + item.player2.name : item.name }}</span>
                         </div>
 
                         <div class="drag-handle flex items-center justify-center w-8 h-8 text-slate-400 hover:text-indigo-600 active:text-indigo-700 cursor-grab active:cursor-grabbing touch-none shrink-0"
@@ -145,10 +132,8 @@
                              @touchstart="onTouchStart($event, idx)"
                              @touchmove="onTouchMove"
                              @touchend="onTouchEnd">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                                 stroke="currentColor" class="w-6 h-6 pointer-events-none">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6 pointer-events-none">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
                             </svg>
                         </div>
                     </div>
@@ -160,13 +145,8 @@
             </div>
 
             <div class="mt-auto p-3 grid grid-cols-2 gap-2 border-t shrink-0 bg-slate-50">
-                <button @click="closeReorderModal"
-                        class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 rounded-lg text-sm">ยกเลิก
-                </button>
-                <button @click="saveReorderedQueue" :disabled="tempReorderQueue.length === 0"
-                        class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-sm disabled:bg-slate-300 disabled:text-slate-500">
-                    บันทึกลำดับใหม่
-                </button>
+                <button @click="closeReorderModal" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 rounded-lg text-sm">ยกเลิก</button>
+                <button @click="saveReorderedQueue" :disabled="tempReorderQueue.length === 0" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-sm disabled:bg-slate-300 disabled:text-slate-500">บันทึกลำดับใหม่</button>
             </div>
         </div>
     </div>
@@ -176,29 +156,24 @@
         <div class="bg-white w-full max-w-sm rounded-xl shadow-xl overflow-hidden flex flex-col max-h-[85vh]">
             <div class="p-4 border-b bg-indigo-50 flex justify-between items-center shrink-0">
                 <h3 class="font-bold text-indigo-900">ℹ️ เงื่อนไขการจัดคิว (BadQ)</h3>
-                <button @click="showQueueInfoModal = false"
-                        class="text-slate-400 hover:text-slate-600 font-bold text-lg">✕
-                </button>
+                <button @click="showQueueInfoModal = false" class="text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
             </div>
 
             <div class="p-4 overflow-y-auto flex-1 space-y-4 text-xs text-slate-600 leading-relaxed">
                 <div class="bg-amber-50 border border-amber-200 p-3 rounded-lg">
                     <h4 class="font-bold text-amber-900 text-sm mb-1">⏱️ หลักการต่อคิวแบบ FIFO</h4>
-                    <p>ระบบเรียงลำดับจาก **"เวลาการเข้ามารอ"** ใครเล่นเสร็จหรือเพิ่งเช็กชื่อเข้าใหม่จะไปต่อ
-                        **"ท้ายแถว"** ทันที เพื่อความยุติธรรมตามลำดับก่อน-หลัง</p>
+                    <p>ระบบเรียงลำดับจาก **"เวลาการเข้ามารอ"** ใครเล่นเสร็จหรือเพิ่งเช็กชื่อเข้าใหม่จะไปต่อ **"ท้ายแถว"** ทันที เพื่อความยุติธรรมตามลำดับก่อน-หลัง</p>
                 </div>
 
                 <div class="space-y-2">
                     <h4 class="font-bold text-slate-800 text-sm">🎲 การจัดคู่อัตโนมัติ (Auto Match)</h4>
                     <div class="border p-2.5 rounded-lg bg-slate-50">
                         <span class="font-bold text-indigo-800 block mb-1">🏸 โหมดคี่ (สุ่มบุคคล 4 คน):</span>
-                        <p>• **การันตี 2 คนแรก** ที่รอนานที่สุดให้ได้ลงสนามแน่นอน<br>• **สุ่ม 2 คน** จากคิวถัดไป 4 คน
-                            เพื่อกระจายคู่แข่งไม่ให้ซ้ำหน้า</p>
+                        <p>• **การันตี 2 คนแรก** ที่รอนานที่สุดให้ได้ลงสนามแน่นอน<br>• **สุ่ม 2 คน** จากคิวถัดไป 4 คน เพื่อกระจายคู่แข่งไม่ให้ซ้ำหน้า</p>
                     </div>
                     <div class="border p-2.5 rounded-lg bg-slate-50">
                         <span class="font-bold text-emerald-800 block mb-1">👥 โหมดคู่ (สุ่มตามคู่ 2 คู่):</span>
-                        <p>• **การันตี 1 คู่แรก** ที่รอนานที่สุดให้ได้ลงสนามแน่นอน<br>• **สุ่ม 1 คู่** จากคิวถัดไป 2 คู่
-                            เพื่อสลับคู่แข่งขัน</p>
+                        <p>• **การันตี 1 คู่แรก** ที่รอนานที่สุดให้ได้ลงสนามแน่นอน<br>• **สุ่ม 1 คู่** จากคิวถัดไป 2 คู่ เพื่อสลับคู่แข่งขัน</p>
                     </div>
                 </div>
 
@@ -220,10 +195,7 @@
             </div>
 
             <div class="p-3 border-t bg-slate-50 text-center shrink-0">
-                <button @click="showQueueInfoModal = false"
-                        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-xs">
-                    เข้าใจแล้ว
-                </button>
+                <button @click="showQueueInfoModal = false" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-xs">เข้าใจแล้ว</button>
             </div>
         </div>
     </div>
@@ -236,21 +208,17 @@
                     <h3 class="font-bold text-indigo-900">รายชื่อผู้เล่น</h3>
                     <p class="text-xs text-indigo-600">{{ formatDate(selectedHistory?.createdAt) }}</p>
                 </div>
-                <button @click="closeHistoryModal" class="text-slate-400 hover:text-slate-600 font-bold text-lg">✕
-                </button>
+                <button @click="closeHistoryModal" class="text-slate-400 hover:text-slate-600 font-bold text-lg">✕</button>
             </div>
 
             <div class="p-4 overflow-y-auto flex-1 bg-slate-50">
                 <ul class="divide-y divide-slate-200">
-                    <li v-for="(player, idx) in selectedHistory?.players" :key="idx"
-                        class="py-2.5 flex justify-between items-center text-sm">
+                    <li v-for="(player, idx) in selectedHistory?.players" :key="idx" class="py-2.5 flex justify-between items-center text-sm">
                         <div class="flex items-center gap-2">
                             <span class="font-medium text-slate-800">{{ player.name }}</span>
-                            <span v-if="player.isLeftEarly"
-                                  class="text-[10px] bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded font-bold">กลับก่อน</span>
+                            <span v-if="player.isLeftEarly" class="text-[10px] bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded font-bold">กลับก่อน</span>
                         </div>
-                        <span class="bg-indigo-100 text-indigo-800 font-bold px-3 py-1 rounded-full text-xs">{{ player.gameCount
-                            }} เกม</span>
+                        <span class="bg-indigo-100 text-indigo-800 font-bold px-3 py-1 rounded-full text-xs">{{ player.gameCount }} เกม</span>
                     </li>
                 </ul>
             </div>
@@ -259,8 +227,7 @@
 
     <!-- Modal: หาคู่ลงเล่น (Court Match) -->
     <div v-if="showMatchModal" class="absolute inset-0 z-40 bg-slate-900/60 flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-sm rounded-xl shadow-xl overflow-hidden flex flex-col"
-             :class="manualMatchMode ? 'h-[85dvh]' : 'max-h-[90dvh]'">
+        <div class="bg-white w-full max-w-sm rounded-xl shadow-xl overflow-hidden flex flex-col" :class="manualMatchMode ? 'h-[85dvh]' : 'max-h-[90dvh]'">
             <div class="p-4 border-b bg-indigo-50 flex justify-between items-center shrink-0">
                 <h3 class="font-bold text-indigo-900">หาคู่ลงเล่น</h3>
                 <button @click="closeMatchModal" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
@@ -268,23 +235,18 @@
 
             <div class="p-4 flex-1 flex flex-col overflow-hidden">
                 <div v-if="!manualMatchMode" class="space-y-3">
-                    <button @click="autoMatch"
-                            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl shadow flex flex-col items-center gap-1">
+                    <button @click="autoMatch" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-xl shadow flex flex-col items-center gap-1">
                         <span class="text-lg">⚡ หาคู่ลงอัตโนมัติ</span>
-                        <span class="text-xs font-normal text-indigo-200">{{ isEvenMode ? 'สุ่ม 2 คู่จากกลุ่มหัวคิวลงสนาม' : 'สุ่ม 4 คนจากกลุ่มหัวคิวลงสนาม'
-                            }}</span>
+                        <span class="text-xs font-normal text-indigo-200">{{ isEvenMode ? 'สุ่ม 2 คู่จากกลุ่มหัวคิวลงสนาม' : 'สุ่ม 4 คนจากกลุ่มหัวคิวลงสนาม' }}</span>
                     </button>
-                    <button @click="manualMatchMode = true"
-                            class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-bold py-4 rounded-xl shadow-sm flex flex-col items-center gap-1">
+                    <button @click="manualMatchMode = true" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-bold py-4 rounded-xl shadow-sm flex flex-col items-center gap-1">
                         <span class="text-lg">🧑‍🤝‍🧑 จับคู่เอง (Manual)</span>
-                        <span class="text-xs font-normal text-slate-500">{{ isEvenMode ? 'เลือก 2 คู่จากคิวรอ' : 'เลือกผู้เล่น 4 คนด้วยตัวเอง'
-                            }}</span>
+                        <span class="text-xs font-normal text-slate-500">{{ isEvenMode ? 'เลือก 2 คู่จากคิวรอ' : 'เลือกผู้เล่น 4 คนด้วยตัวเอง' }}</span>
                     </button>
                 </div>
 
                 <div v-else-if="isEvenMode" class="flex flex-col h-full overflow-hidden">
-                    <p class="text-xs text-slate-500 mb-3 text-center shrink-0">กรุณาเลือก 2 คู่ลงสนาม (เลือกแล้ว:
-                        {{ tempSelectedPairKeys.length }}/2 คู่)</p>
+                    <p class="text-xs text-slate-500 mb-3 text-center shrink-0">กรุณาเลือก 2 คู่ลงสนาม (เลือกแล้ว: {{ tempSelectedPairKeys.length }}/2 คู่)</p>
 
                     <div class="flex-1 overflow-y-auto pr-1 mb-3 space-y-2">
                         <label v-for="(pair, idx) in waitingPairQueue" :key="pair.key"
@@ -294,44 +256,29 @@
                                     (tempSelectedPairKeys.length >= 2 && !tempSelectedPairKeys.includes(pair.key)) ? 'opacity-50 cursor-not-allowed bg-slate-100' : ''
                                 ]">
                             <div class="flex flex-col justify-center overflow-hidden mr-2">
-                                <span class="block text-sm font-bold truncate">{{ pair.player1.name
-                                    }} & {{ pair.player2.name }}</span>
+                                <span class="block text-sm font-bold truncate">{{ pair.player1.name }} & {{ pair.player2.name }}</span>
                                 <div class="flex items-center gap-1.5 mt-1">
-                                    <span v-if="idx === 0"
-                                          class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-300 shrink-0">⭐ การันตี</span>
-                                    <span v-else-if="idx > 0 && idx <= 2"
-                                          class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-300 shrink-0">🎲 สุ่มคิว</span>
-                                    <span v-else
-                                          class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-200 shrink-0">⏳ ลำดับที่ {{ idx + 1
-                                        }}</span>
-                                    <span class="text-xs font-normal text-slate-500">เล่นมารอบนี้ {{ pair.pairGameCount
-                                        }} เกม</span>
+                                    <span v-if="idx === 0" class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-300 shrink-0">⭐ การันตี</span>
+                                    <span v-else-if="idx > 0 && idx <= 2" class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-300 shrink-0">🎲 สุ่มคิว</span>
+                                    <span v-else class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-200 shrink-0">⏳ ลำดับที่ {{ idx + 1 }}</span>
+                                    <span class="text-xs font-normal text-slate-500">เล่นมารอบนี้ {{ pair.pairGameCount }} เกม</span>
                                 </div>
                             </div>
                             <input type="checkbox" :value="pair.key" v-model="tempSelectedPairKeys"
                                    :disabled="tempSelectedPairKeys.length >= 2 && !tempSelectedPairKeys.includes(pair.key)"
                                    class="w-5 h-5 text-indigo-600 rounded shrink-0">
                         </label>
-                        <div v-if="waitingPairQueue.length === 0" class="text-center py-6 text-slate-400 text-sm">
-                            ไม่มีคิวคู่ที่พร้อมลงเล่น
-                        </div>
+                        <div v-if="waitingPairQueue.length === 0" class="text-center py-6 text-slate-400 text-sm">ไม่มีคิวคู่ที่พร้อมลงเล่น</div>
                     </div>
 
                     <div class="mt-auto pt-2 grid grid-cols-2 gap-2 border-t shrink-0">
-                        <button @click="manualMatchMode = false"
-                                class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 rounded-lg text-sm">
-                            ย้อนกลับ
-                        </button>
-                        <button @click="confirmManualPairMatch" :disabled="tempSelectedPairKeys.length !== 2"
-                                class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-sm disabled:bg-slate-300 disabled:text-slate-500">
-                            ยืนยัน 2 คู่
-                        </button>
+                        <button @click="manualMatchMode = false" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 rounded-lg text-sm">ย้อนกลับ</button>
+                        <button @click="confirmManualPairMatch" :disabled="tempSelectedPairKeys.length !== 2" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-sm disabled:bg-slate-300 disabled:text-slate-500">ยืนยัน 2 คู่</button>
                     </div>
                 </div>
 
                 <div v-else class="flex flex-col h-full overflow-hidden">
-                    <p class="text-xs text-slate-500 mb-3 text-center shrink-0">กรุณาเลือกผู้เล่นให้ครบ 4 คน (เลือกแล้ว:
-                        {{ tempSelectedPlayers.length }}/4)</p>
+                    <p class="text-xs text-slate-500 mb-3 text-center shrink-0">กรุณาเลือกผู้เล่นให้ครบ 4 คน (เลือกแล้ว: {{ tempSelectedPlayers.length }}/4)</p>
 
                     <div class="flex-1 overflow-y-auto pr-1 mb-3 space-y-2">
                         <label v-for="(player, idx) in waitingQueue" :key="player.id"
@@ -343,16 +290,11 @@
                             <div class="flex flex-col justify-center overflow-hidden mr-2">
                                 <span class="text-sm font-bold truncate">{{ player.name }}</span>
                                 <div class="flex items-center gap-1.5 mt-1">
-                                    <span v-if="idx < 2"
-                                          class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-300 shrink-0">⭐ การันตี</span>
-                                    <span v-else-if="idx >= 2 && idx < 6"
-                                          class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-300 shrink-0">🎲 สุ่มคิว</span>
-                                    <span v-else
-                                          class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-200 shrink-0">⏳ ลำดับที่ {{ idx + 1
-                                        }}</span>
+                                    <span v-if="idx < 2" class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-300 shrink-0">⭐ การันตี</span>
+                                    <span v-else-if="idx >= 2 && idx < 6" class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-300 shrink-0">🎲 สุ่มคิว</span>
+                                    <span v-else class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-200 shrink-0">⏳ ลำดับที่ {{ idx + 1 }}</span>
                                     <span class="text-xs font-normal text-slate-500">
-                                            {{ player.status === 'playing' ? 'กำลังแข่ง' : (player.status === 'court_assigned' ? 'เตรียมลงสนาม' : `เล่นไป ${player.gameCount} เกม`)
-                                        }}
+                                            {{ player.status === 'playing' ? 'กำลังแข่ง' : (player.status === 'court_assigned' ? 'เตรียมลงสนาม' : `เล่นไป ${player.gameCount} เกม`) }}
                                     </span>
                                 </div>
                             </div>
@@ -363,14 +305,8 @@
                     </div>
 
                     <div class="mt-auto pt-2 grid grid-cols-2 gap-2 border-t shrink-0">
-                        <button @click="manualMatchMode = false"
-                                class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 rounded-lg text-sm">
-                            ย้อนกลับ
-                        </button>
-                        <button @click="confirmManualMatch" :disabled="tempSelectedPlayers.length !== 4"
-                                class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-sm disabled:bg-slate-300 disabled:text-slate-500">
-                            ยืนยันผู้เล่น
-                        </button>
+                        <button @click="manualMatchMode = false" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 rounded-lg text-sm">ย้อนกลับ</button>
+                        <button @click="confirmManualMatch" :disabled="tempSelectedPlayers.length !== 4" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg text-sm disabled:bg-slate-300 disabled:text-slate-500">ยืนยันผู้เล่น</button>
                     </div>
                 </div>
             </div>
@@ -379,8 +315,7 @@
 
     <!-- Modal: จับคู่ผู้เล่น -->
     <div v-if="showPairModal" class="absolute inset-0 z-40 bg-slate-900/60 flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-sm rounded-xl shadow-xl overflow-hidden flex flex-col"
-             :class="manualPairMode ? 'h-[85dvh]' : 'max-h-[90dvh]'">
+        <div class="bg-white w-full max-w-sm rounded-xl shadow-xl overflow-hidden flex flex-col" :class="manualPairMode ? 'h-[85dvh]' : 'max-h-[90dvh]'">
             <div class="p-4 border-b bg-emerald-50 flex justify-between items-center shrink-0">
                 <h3 class="font-bold text-emerald-900">จับคู่ผู้เล่น (โหมดคู่)</h3>
                 <button @click="closePairModal" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
@@ -388,21 +323,18 @@
 
             <div class="p-4 flex-1 flex flex-col overflow-hidden">
                 <div v-if="!manualPairMode" class="space-y-3">
-                    <button @click="autoPair"
-                            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl shadow flex flex-col items-center gap-1">
+                    <button @click="autoPair" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl shadow flex flex-col items-center gap-1">
                         <span class="text-lg">⚡ จับคู่อัตโนมัติ</span>
                         <span class="text-xs font-normal text-emerald-200">สุ่มจับคู่ผู้เล่นที่ยังไม่มีคู่ให้ทันที 1 ต่อ 1</span>
                     </button>
-                    <button @click="manualPairMode = true; tempSelectedPair = []"
-                            class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-bold py-4 rounded-xl shadow-sm flex flex-col items-center gap-1">
+                    <button @click="manualPairMode = true; tempSelectedPair = []" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-bold py-4 rounded-xl shadow-sm flex flex-col items-center gap-1">
                         <span class="text-lg">🧑‍🤝‍🧑 จับคู่เอง (Manual)</span>
                         <span class="text-xs font-normal text-slate-500">เลือกผู้เล่น 2 คนเพื่อสร้างคู่</span>
                     </button>
                 </div>
 
                 <div v-else class="flex flex-col h-full overflow-hidden">
-                    <p class="text-xs text-slate-500 mb-3 text-center shrink-0">กรุณาเลือกผู้เล่น 2 คนเพื่อจับคู่
-                        (เลือกแล้ว: {{ tempSelectedPair.length }}/2)</p>
+                    <p class="text-xs text-slate-500 mb-3 text-center shrink-0">กรุณาเลือกผู้เล่น 2 คนเพื่อจับคู่ (เลือกแล้ว: {{ tempSelectedPair.length }}/2)</p>
 
                     <div class="flex-1 overflow-y-auto pr-1 mb-3 space-y-2">
                         <label v-for="player in unpairedPlayers" :key="player.id"
@@ -413,420 +345,104 @@
                                 ]">
                             <div>
                                 <span>{{ player.name }}</span>
-                                <span class="ml-2 text-xs px-2 py-0.5 rounded bg-slate-200 text-slate-600 font-normal">เล่นไป {{ player.gameCount
-                                    }} เกม</span>
+                                <span class="ml-2 text-xs px-2 py-0.5 rounded bg-slate-200 text-slate-600 font-normal">เล่นไป {{ player.gameCount }} เกม</span>
                             </div>
                             <input type="checkbox" :value="player.id" v-model="tempSelectedPair"
                                    :disabled="tempSelectedPair.length >= 2 && !tempSelectedPair.includes(player.id)"
                                    class="w-5 h-5 text-emerald-600 rounded">
                         </label>
-                        <div v-if="unpairedPlayers.length === 0" class="text-center py-6 text-slate-400 text-sm">
-                            ทุกคนมีคู่หมดแล้ว
-                        </div>
+                        <div v-if="unpairedPlayers.length === 0" class="text-center py-6 text-slate-400 text-sm">ทุกคนมีคู่หมดแล้ว</div>
                     </div>
 
                     <div class="mt-auto pt-2 grid grid-cols-2 gap-2 border-t shrink-0">
-                        <button @click="manualPairMode = false"
-                                class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 rounded-lg text-sm">
-                            ย้อนกลับ
-                        </button>
-                        <button @click="confirmManualPair" :disabled="tempSelectedPair.length !== 2"
-                                class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg text-sm disabled:bg-slate-300 disabled:text-slate-500">
-                            ยืนยันสร้างคู่
-                        </button>
+                        <button @click="manualPairMode = false" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 rounded-lg text-sm">ย้อนกลับ</button>
+                        <button @click="confirmManualPair" :disabled="tempSelectedPair.length !== 2" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 rounded-lg text-sm disabled:bg-slate-300 disabled:text-slate-500">ยืนยันสร้างคู่</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Header หลักประจำแอป -->
     <header class="bg-indigo-600 text-white p-4 text-center font-bold text-lg shadow flex justify-between items-center shrink-0 z-30">
         <span>BadQ</span>
         <button v-if="currentScreen !== 'home'" @click="currentScreen = 'home'"
-                class="text-xs bg-indigo-700 hover:bg-indigo-800 px-3 py-1.5 rounded-lg border border-indigo-400">🏠
-            หน้าหลัก
+                class="text-xs bg-indigo-700 hover:bg-indigo-800 px-3 py-1.5 rounded-lg border border-indigo-400">🏠 หน้าหลัก
         </button>
     </header>
 
-    <!-- SCREEN 0: หน้าหลัก (Main Menu) -->
-    <main v-if="currentScreen === 'home'"
-          class="p-6 flex-1 flex flex-col items-center justify-center bg-slate-100 overflow-y-auto">
+    <!-- SCREEN 0: หน้าหลัก (Home View) -->
+    <main v-if="currentScreen === 'home'" class="p-6 flex-1 flex flex-col items-center justify-center bg-slate-100 overflow-y-auto">
         <div class="w-48 mb-8 flex justify-center items-center">
-            <img src="badQ-logo.png" alt="BadQ Logo" class="w-full h-auto object-contain mix-blend-multiply">
+            <img src="assets/badQ-logo.png" alt="BadQ Logo" class="w-full h-auto object-contain mix-blend-multiply">
         </div>
 
         <div class="w-full space-y-4 max-w-[280px]">
-            <button @click="currentScreen = 'checkin'"
-                    class="w-full bg-white hover:bg-indigo-50 text-indigo-700 font-bold py-4 rounded-xl shadow-sm border border-slate-200 transition text-lg">
-                เริ่มจัดคิว
-            </button>
-            <button @click="currentScreen = 'history'"
-                    class="w-full bg-white hover:bg-indigo-50 text-indigo-700 font-bold py-4 rounded-xl shadow-sm border border-slate-200 transition text-lg">
-                ข้อมูลการเล่น
-            </button>
-            <button @click="currentScreen = 'roster'"
-                    class="w-full bg-white hover:bg-indigo-50 text-indigo-700 font-bold py-4 rounded-xl shadow-sm border border-slate-200 transition text-lg">
-                จัดการรายชื่อ
-            </button>
+            <button @click="currentScreen = 'checkin'" class="w-full bg-white hover:bg-indigo-50 text-indigo-700 font-bold py-4 rounded-xl shadow-sm border border-slate-200 transition text-lg">เริ่มจัดคิว</button>
+            <button @click="currentScreen = 'history'" class="w-full bg-white hover:bg-indigo-50 text-indigo-700 font-bold py-4 rounded-xl shadow-sm border border-slate-200 transition text-lg">ข้อมูลการเล่น</button>
+            <button @click="currentScreen = 'roster'" class="w-full bg-white hover:bg-indigo-50 text-indigo-700 font-bold py-4 rounded-xl shadow-sm border border-slate-200 transition text-lg">จัดการรายชื่อ</button>
         </div>
     </main>
 
-    <!-- SCREEN: ข้อมูลการเล่น (History) -->
-    <main v-if="currentScreen === 'history'" class="p-4 flex-1 flex flex-col">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold text-slate-700">ประวัติข้อมูลการเล่น</h2>
-            <button v-if="histories.length > 0" @click="deleteAllHistory"
-                    class="text-xs bg-rose-100 hover:bg-rose-200 text-rose-600 px-3 py-1.5 rounded-lg font-bold transition border border-rose-200">
-                🗑️ ลบประวัติทั้งหมด
-            </button>
-        </div>
+    <!-- DYNAMIC VIEW COMPONENTS LAYER -->
+    <roster-view v-if="currentScreen === 'roster'"
+                 :members="members"
+                 :loading="loading"
+                 v-model:new-member-name="newMemberName"
+                 v-model:edit-name="editName"
+                 :editing-id="editingId"
+                 @add-member="addMember"
+                 @start-edit="startEdit"
+                 @cancel-edit="cancelEdit"
+                 @save-edit="saveEdit"
+                 @delete-member="deleteMember">
+    </roster-view>
 
-        <div v-if="histories.length === 0" class="flex-1 flex flex-col items-center justify-center text-slate-400">
-            <span class="text-4xl mb-2">📭</span>
-            <p>ยังไม่มีข้อมูลการเล่นที่จบไปแล้ว</p>
-        </div>
+    <history-view v-if="currentScreen === 'history'"
+                  :histories="histories"
+                  :format-date="formatDate"
+                  @delete-all-history="deleteAllHistory"
+                  @delete-history="deleteHistory"
+                  @view-history-players="viewHistoryPlayers">
+    </history-view>
 
-        <div v-else class="space-y-3 overflow-y-auto pb-4">
-            <div v-for="h in histories" :key="h.id"
-                 class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm relative">
-                <div class="flex justify-between items-start mb-3 pb-3 border-b border-slate-100">
-                    <div>
-                        <span class="block text-sm font-bold text-indigo-900">📅 {{ formatDate(h.createdAt) }}</span>
-                    </div>
-                    <button @click="deleteHistory(h.id)" class="text-slate-300 hover:text-rose-500 transition text-lg">
-                        🗑️
-                    </button>
-                </div>
-                <div class="grid grid-cols-2 gap-2 mb-4 text-sm bg-slate-50 p-3 rounded-lg border border-slate-100">
-                    <div class="flex flex-col items-center justify-center border-r border-slate-200">
-                        <span class="text-xs text-slate-500 mb-1">ลูกแบดทั้งหมด</span>
-                        <span class="font-bold text-amber-500 text-lg">{{ h.shuttlecockCount }} <span
-                                class="text-xs text-slate-600 font-normal">ลูก</span></span>
-                    </div>
-                    <div class="flex flex-col items-center justify-center">
-                        <span class="text-xs text-slate-500 mb-1">จำนวนผู้เล่น</span>
-                        <span class="font-bold text-emerald-600 text-lg">{{ h.playerCount }} <span
-                                class="text-xs text-slate-600 font-normal">คน</span></span>
-                    </div>
-                </div>
-                <button @click="viewHistoryPlayers(h)"
-                        class="w-full bg-slate-100 hover:bg-indigo-50 hover:text-indigo-700 text-slate-700 font-bold py-2 rounded-lg text-xs transition border border-slate-200 hover:border-indigo-200">
-                    📋 ดูรายชื่อผู้เล่น
-                </button>
-            </div>
-        </div>
-    </main>
+    <checkin-view v-if="currentScreen === 'checkin'"
+                  :members="members"
+                  v-model:selected-player-ids="selectedPlayerIds">
+    </checkin-view>
 
-    <!-- SCREEN 1: จัดการสมาชิก (Roster) -->
-    <main v-if="currentScreen === 'roster'" class="p-4 flex-1 flex flex-col overflow-hidden">
-        <h2 class="text-xl font-bold text-slate-700 mb-4 shrink-0">รายชื่อสมาชิกทั้งหมด</h2>
+    <dashboard-view v-if="currentScreen === 'dashboard'"
+                    :shuttlecock-count="shuttlecockCount"
+                    :is-even-mode="isEvenMode"
+                    :paired-count="pairedCount"
+                    :active-players="activePlayers"
+                    :courts="courts"
+                    :waiting-pair-queue="waitingPairQueue"
+                    :waiting-queue="waitingQueue"
+                    @update-shuttlecock="updateShuttlecock"
+                    @open-pair-modal="openPairModal"
+                    @dissolve-pairs="dissolvePairs"
+                    @change-screen="val => currentScreen = val"
+                    @open-match-modal="openMatchModal"
+                    @start-match="startMatch"
+                    @clear-court="clearCourt"
+                    @finish-match="finishMatch"
+                    @cancel-match="cancelMatch"
+                    @show-queue-info="showQueueInfoModal = true"
+                    @open-reorder-modal="openReorderModal">
+    </dashboard-view>
 
-        <form @submit.prevent="addMember" class="flex gap-2 mb-6 shrink-0">
-            <input v-model="newMemberName" type="text" placeholder="ใส่ชื่อเล่น..."
-                   class="flex-1 border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                   required>
-            <button type="submit" :disabled="loading"
-                    class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded-lg transition disabled:bg-slate-400">
-                + เพิ่ม
-            </button>
-        </form>
+    <summary-view v-if="currentScreen === 'summary'"
+                  :shuttlecock-count="shuttlecockCount"
+                  :sorted-summary-players="sortedSummaryPlayers"
+                  :active-players="activePlayers"
+                  @change-screen="val => currentScreen = val"
+                  @end-day-session="endDaySession">
+    </summary-view>
 
-        <div v-if="loading" class="text-center py-4 text-slate-500 shrink-0">กำลังโหลดข้อมูล...</div>
-
-        <div v-else class="flex-1 overflow-y-auto pr-1">
-            <ul class="space-y-2">
-                <li v-for="member in members" :key="member.id"
-                    class="flex items-center justify-between bg-slate-50 border border-slate-200 p-3 rounded-lg">
-                    <template v-if="editingId !== member.id">
-                        <span class="font-medium text-slate-700">{{ member.name }}</span>
-                        <div class="flex gap-2">
-                            <button @click="startEdit(member)"
-                                    class="text-slate-400 hover:text-indigo-600 text-sm font-medium px-2 py-1">แก้ไข
-                            </button>
-                            <button @click="deleteMember(member.id)"
-                                    class="text-slate-400 hover:text-red-600 text-sm font-medium px-2 py-1">ลบ
-                            </button>
-                        </div>
-                    </template>
-                    <template v-else>
-                        <input v-model="editName" type="text"
-                               class="border border-indigo-400 rounded px-2 py-1 flex-1 mr-2 text-sm focus:outline-none"
-                               @keyup.enter="saveEdit(member.id)">
-                        <div class="flex gap-1">
-                            <button @click="saveEdit(member.id)"
-                                    class="bg-emerald-600 text-white text-xs px-2 py-1 rounded">บันทึก
-                            </button>
-                            <button @click="cancelEdit" class="bg-slate-300 text-slate-700 text-xs px-2 py-1 rounded">
-                                ยกเลิก
-                            </button>
-                        </div>
-                    </template>
-                </li>
-            </ul>
-        </div>
-    </main>
-
-    <!-- SCREEN 2: เช็กชื่อผู้เล่น (Check-in) -->
-    <main v-if="currentScreen === 'checkin'" class="p-4 flex-1 flex flex-col overflow-hidden">
-        <h2 class="text-xl font-bold mb-2 text-slate-700 shrink-0">เช็กชื่อผู้เล่นวันนี้</h2>
-
-        <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4 mb-4 flex justify-between items-center shrink-0">
-            <div>
-                <span class="text-xs text-indigo-600 font-semibold block">จำนวนผู้เล่นวันนี้</span>
-                <span class="text-2xl font-black text-indigo-900">{{ selectedPlayerIds.length }} <span
-                        class="text-sm font-normal text-slate-600">คน</span></span>
-            </div>
-            <div class="text-right">
-                <span class="text-xs text-slate-500 block">โหมดการจัดคิว</span>
-                <span v-if="selectedPlayerIds.length === 0"
-                      class="text-xs bg-slate-200 text-slate-600 px-2 py-1 rounded font-bold">ยังไม่เลือก</span>
-                <span v-else-if="selectedPlayerIds.length % 2 === 0"
-                      class="text-xs bg-emerald-100 text-emerald-800 px-2 py-1 rounded font-bold">โหมดคู่</span>
-                <span v-else class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded font-bold">โหมดคี่</span>
-            </div>
-        </div>
-
-        <p v-if="selectedPlayerIds.length < 8"
-           class="text-xs text-rose-500 font-bold mb-3 bg-rose-50 p-2 rounded border border-rose-200 shrink-0">⚠️
-            ต้องมีผู้เล่นอย่างน้อย 8 คน ถึงจะสามารถเริ่มจัดคิวได้</p>
-
-        <div class="flex-1 overflow-y-auto pr-1 mb-2">
-            <div class="space-y-2">
-                <label v-for="member in members" :key="member.id"
-                       class="flex items-center justify-between p-3 rounded-lg border cursor-pointer transition"
-                       :class="selectedPlayerIds.includes(member.id) ? 'bg-indigo-50 border-indigo-300 font-bold text-indigo-900' : 'bg-slate-50 border-slate-200 text-slate-700'">
-                    <span>{{ member.name }}</span>
-                    <input type="checkbox" :value="member.id" v-model="selectedPlayerIds"
-                           class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500">
-                </label>
-            </div>
-        </div>
-    </main>
-
-    <!-- SCREEN 3: จัดการสนามและคิว (Dashboard) -->
-    <main v-if="currentScreen === 'dashboard'" class="p-4 flex-1 flex flex-col gap-4 overflow-y-auto">
-        <div class="bg-slate-800 text-white p-3 rounded-xl flex items-center justify-between shadow shrink-0">
-            <div class="flex items-center gap-2">
-                <span class="text-xl">🏸</span>
-                <div>
-                    <span class="text-xs text-slate-400 block">จำนวนลูกแบดที่ใช้</span>
-                    <span class="text-lg font-bold text-amber-400">{{ shuttlecockCount }} <span
-                            class="text-xs text-slate-300">ลูก</span></span>
-                </div>
-            </div>
-            <div class="flex items-center gap-2">
-                <button @click="updateShuttlecock(-1)"
-                        class="w-8 h-8 bg-slate-700 hover:bg-slate-600 rounded-lg font-bold text-lg">-
-                </button>
-                <button @click="updateShuttlecock(1)"
-                        class="w-8 h-8 bg-indigo-600 hover:bg-indigo-500 rounded-lg font-bold text-lg">+
-                </button>
-            </div>
-        </div>
-
-        <div v-if="isEvenMode"
-             class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 flex justify-between items-center shrink-0">
-            <div>
-                <span class="text-xs text-emerald-800 font-bold block">ระบบจับคู่</span>
-                <span class="text-xs text-slate-600">จับคู่แล้ว: {{ pairedCount }}/{{ activePlayers.length }} คน</span>
-            </div>
-            <div class="flex gap-2">
-                <button @click="openPairModal"
-                        class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-lg shadow">
-                    👥 จับคู่ผู้เล่น
-                </button>
-                <button @click="dissolvePairs"
-                        class="text-xs bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold px-3 py-2 rounded-lg border border-rose-300">
-                    💧 ละลายคู่
-                </button>
-            </div>
-        </div>
-
-        <div class="flex justify-between items-center shrink-0">
-            <span class="text-xs text-slate-500">ผู้เล่นวันนี้: <strong>{{ activePlayers.length }} คน</strong></span>
-            <div class="flex gap-2">
-                <button @click="currentScreen = 'checkin'"
-                        class="text-xs bg-slate-200 hover:bg-slate-300 px-3 py-1.5 rounded-lg font-medium text-slate-700">
-                    ➕ เช็กชื่อเพิ่ม/ออก
-                </button>
-                <button @click="currentScreen = 'summary'"
-                        class="text-xs bg-amber-500 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg font-bold shadow-sm">
-                    📊 สรุปผล
-                </button>
-            </div>
-        </div>
-
-        <div class="space-y-3 shrink-0">
-            <div v-for="(court, index) in courts" :key="court.id"
-                 class="border-2 border-indigo-200 rounded-xl p-3 bg-indigo-50/30">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="font-bold text-indigo-900 text-sm">{{ court.name }}</span>
-                    <span :class="court.status === 'playing' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-200 text-slate-600'"
-                          class="text-xs px-2 py-0.5 rounded font-bold">{{ court.status === 'playing' ? 'กำลังแข่ง' : 'ว่าง'
-                        }}</span>
-                </div>
-
-                <div class="grid grid-cols-2 gap-2 mb-3">
-                    <div v-for="(player, pIdx) in (court.players.length ? court.players : [null,null,null,null])"
-                         :key="pIdx"
-                         class="p-2 rounded border text-center text-xs font-semibold shadow-sm relative overflow-hidden transition"
-                         :class="[court.players.length === 4 ? (pIdx < 2 ? 'bg-blue-50/80 border-blue-200 text-blue-900' : 'bg-orange-50/80 border-orange-200 text-orange-900') : 'bg-white border-slate-200 text-slate-700']">
-                        <span v-if="court.players.length === 4"
-                              class="absolute top-0.5 left-1 text-[9px] font-bold opacity-60 uppercase"
-                              :class="pIdx < 2 ? 'text-blue-600' : 'text-orange-600'">{{ pIdx < 2 ? 'ทีม A' : 'ทีม B'
-                            }}</span>
-                        <span class="block mt-1">{{ player ? player.name : '—' }}</span>
-                    </div>
-                </div>
-
-                <div class="flex gap-2">
-                    <button v-if="court.players.length === 0" @click="openMatchModal(index)"
-                            class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2.5 rounded-lg shadow">
-                        🔍 หาคู่ลงเล่น
-                    </button>
-                    <template v-else-if="court.status === 'idle'">
-                        <button @click="startMatch(index)"
-                                class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2.5 rounded-lg shadow">
-                            ▶️ เริ่มเกม
-                        </button>
-                        <button @click="clearCourt(index)"
-                                class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold px-3 py-2.5 rounded-lg shadow-sm">
-                            🔄 เปลี่ยนตัว
-                        </button>
-                    </template>
-                    <template v-else>
-                        <button @click="finishMatch(index)"
-                                class="flex-1 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold py-2.5 rounded-lg shadow">
-                            ⏹️ จบเกม (+1 สถิติ)
-                        </button>
-                        <button @click="cancelMatch(index)"
-                                class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold px-3 py-2.5 rounded-lg shadow-sm">
-                            🚫 ยกเลิก
-                        </button>
-                    </template>
-                </div>
-            </div>
-        </div>
-
-        <!-- ส่วนรายการคิวรอเล่น (พร้อมปุ่มคำอธิบายและป้ายบอกสถานะ) -->
-        <div class="mt-2 shrink-0 pb-4">
-            <div class="flex justify-between items-center mb-2">
-                <div class="flex items-center gap-2">
-                    <h3 class="text-sm font-bold text-slate-700">คิวรอเล่น ({{ isEvenMode ? 'จัดตามคู่' : 'จัดตามบุคคล'
-                        }})</h3>
-                    <button @click="showQueueInfoModal = true"
-                            class="text-slate-400 hover:text-indigo-600 transition text-sm" title="เงื่อนไขการจัดคิว">ℹ️
-                    </button>
-                </div>
-                <button @click="openReorderModal"
-                        class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-bold px-2.5 py-1.5 rounded-lg transition shadow-sm">
-                    🔄 จัดคิวเอง
-                </button>
-            </div>
-
-            <!-- คิวโหมดคู่ -->
-            <div v-if="isEvenMode" class="bg-slate-50 border rounded-xl p-3 space-y-1.5">
-                <div v-for="(pair, idx) in waitingPairQueue" :key="pair.key"
-                     class="flex justify-between items-center text-xs bg-white p-2.5 rounded-lg border border-slate-200 shadow-sm">
-                    <div class="flex items-center gap-2">
-                        <span v-if="idx === 0"
-                              class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-300">⭐ การันตี</span>
-                        <span v-else-if="idx > 0 && idx <= 2"
-                              class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-300">🎲 สุ่มคิว</span>
-                        <span v-else
-                              class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-200">⏳ ลำดับที่ {{ idx + 1
-                            }}</span>
-                        <span class="font-bold text-indigo-900">{{ pair.player1.name }} & {{ pair.player2.name }}</span>
-                    </div>
-                    <span class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-bold">เล่นรอบนี้: {{ pair.pairGameCount
-                        }} เกม</span>
-                </div>
-                <div v-if="waitingPairQueue.length === 0" class="text-center py-3 text-slate-400 text-xs">ไม่มีคู่รอคิว
-                    (หรือยังไม่ได้จับคู่)
-                </div>
-            </div>
-
-            <!-- คิวโหมดคี่ -->
-            <div v-else class="bg-slate-50 border rounded-xl p-3 space-y-1.5">
-                <div v-for="(player, idx) in waitingQueue" :key="player.id"
-                     class="flex justify-between items-center text-xs bg-white p-2.5 rounded-lg border border-slate-200 shadow-sm">
-                    <div class="flex items-center gap-2">
-                        <span v-if="idx < 2"
-                              class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-300">⭐ การันตี</span>
-                        <span v-else-if="idx >= 2 && idx < 6"
-                              class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-300">🎲 สุ่มคิว</span>
-                        <span v-else
-                              class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full border border-slate-200">⏳ ลำดับที่ {{ idx + 1
-                            }}</span>
-                        <span class="font-medium text-slate-800">{{ player.name }}</span>
-                    </div>
-                    <span class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-bold">เล่นไป {{ player.gameCount
-                        }} เกม</span>
-                </div>
-                <div v-if="waitingQueue.length === 0" class="text-center py-3 text-slate-400 text-xs">
-                    ไม่มีผู้เล่นรอคิว
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- SCREEN 4: สรุปผลการเล่น (Stats & Summary) -->
-    <main v-if="currentScreen === 'summary'" class="p-4 flex-1 flex flex-col gap-3 overflow-hidden">
-        <!-- Fixed Top: หัวข้อ & ลูกแบดมินตัน -->
-        <div class="flex justify-between items-center shrink-0">
-            <h2 class="text-xl font-bold text-slate-700">สรุปผลกิจกรรมวันนี้</h2>
-            <button @click="currentScreen = 'dashboard'"
-                    class="text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 px-2.5 py-1.5 rounded-lg font-medium">
-                ← กลับหน้าสนาม
-            </button>
-        </div>
-
-        <div class="bg-slate-800 text-white p-4 rounded-xl flex items-center justify-between shadow shrink-0">
-            <div>
-                <span class="text-xs text-slate-400 block">ลูกแบดมินตันที่ใช้ทั้งหมด</span>
-                <span class="text-2xl font-black text-amber-400">{{ shuttlecockCount }} <span
-                        class="text-sm font-normal text-slate-300">ลูก</span></span>
-            </div>
-            <span class="text-3xl">🏸</span>
-        </div>
-
-        <!-- Dynamic Scroll Area: ตารางรายชื่อผู้เล่น -->
-        <div class="bg-white border rounded-xl overflow-hidden shadow-sm flex-1 flex flex-col min-h-0">
-            <div class="bg-indigo-50 p-3 border-b border-indigo-100 font-bold text-indigo-900 text-sm flex justify-between shrink-0">
-                <span>รายชื่อผู้เล่นที่ลงเล่นวันนี้ ({{ sortedSummaryPlayers.length }} คน)</span>
-                <span>จำนวนเกมที่เล่น</span>
-            </div>
-            <ul class="divide-y divide-slate-100 overflow-y-auto flex-1">
-                <li v-for="player in sortedSummaryPlayers" :key="player.id"
-                    class="p-3 flex justify-between items-center text-sm">
-                    <div class="flex items-center gap-2">
-                        <span class="font-medium text-slate-800">{{ player.name }}</span>
-                        <span v-if="!activePlayers.some(ap => ap.id === player.id)"
-                              class="text-[10px] bg-slate-200 text-slate-600 px-1.5 py-0.5 rounded font-bold">กลับก่อน</span>
-                    </div>
-                    <span class="bg-indigo-100 text-indigo-800 font-bold px-3 py-1 rounded-full text-xs">{{ player.gameCount
-                        }} เกม</span>
-                </li>
-                <li v-if="sortedSummaryPlayers.length === 0" class="p-6 text-center text-slate-400 text-sm">
-                    ยังไม่มีข้อมูลการแข่งขันวันนี้
-                </li>
-            </ul>
-        </div>
-
-        <!-- Fixed Bottom: ปุ่มจบกิจกรรม -->
-        <div class="pt-2 border-t shrink-0">
-            <button @click="endDaySession"
-                    class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-xl shadow transition text-center">
-                🏁 จบกิจกรรมวันนี้ (ล้างและบันทึกสถิติ)
-            </button>
-        </div>
-    </main>
-
-    <!-- Footers ของหน้าเช็กชื่อ -->
+    <!-- Footer สำหรับหน้าเช็กชื่อ -->
     <footer v-if="currentScreen === 'checkin'" class="p-4 border-t bg-slate-50 flex gap-2 shrink-0">
-        <button @click="currentScreen = 'home'"
-                class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-3 rounded-xl">ยกเลิก
-        </button>
+        <button @click="currentScreen = 'home'" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-3 rounded-xl">ยกเลิก</button>
         <button @click="confirmCheckin"
                 class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl shadow transition"
                 :disabled="selectedPlayerIds.length < 8"
@@ -837,7 +453,23 @@
 
 </div>
 
-<!-- เรียกใช้ Logic จากไฟล์ app.js -->
+<!-- โหลดไฟล์ JavaScript และ Vue Components -->
+<script type="module">
+    import RosterView from './components/RosterView.js';
+    import HistoryView from './components/HistoryView.js';
+    import CheckinView from './components/CheckinView.js';
+    import DashboardView from './components/DashboardView.js';
+    import SummaryView from './components/SummaryView.js';
+
+    // ลงทะเบียน Components เข้ากับตัวแปรหลัก
+    window.VueComponents = {
+        RosterView,
+        HistoryView,
+        CheckinView,
+        DashboardView,
+        SummaryView
+    };
+</script>
 <script type="module" src="./app.js"></script>
 </body>
 </html>
