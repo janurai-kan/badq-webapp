@@ -11,12 +11,10 @@ export function useCourt(activePlayers, isEvenMode, getNextQueueNumber, sortedSu
         {id: 'court_2', name: 'สนาม 2', status: 'idle', players: []}
     ]);
 
-    // ปรับจำนวนลูกแบดมินตัน
     const updateShuttlecock = (val) => {
         if (shuttlecockCount.value + val >= 0) shuttlecockCount.value += val;
     };
 
-    // ล้างตัวผู้เล่นออกจากสนาม (เปลี่ยนตัว)
     const clearCourt = (courtIdx) => {
         const court = courts.value[courtIdx];
         court.players.forEach(p => {
@@ -27,7 +25,6 @@ export function useCourt(activePlayers, isEvenMode, getNextQueueNumber, sortedSu
         court.status = 'idle';
     };
 
-    // ยกเลิกเกมในสนาม
     const cancelMatch = (courtIdx) => {
         const court = courts.value[courtIdx];
         openConfirm({
@@ -42,7 +39,6 @@ export function useCourt(activePlayers, isEvenMode, getNextQueueNumber, sortedSu
         });
     };
 
-    // เริ่มเกมในสนาม
     const startMatch = (courtIdx) => {
         const court = courts.value[courtIdx];
         if (court.players.length === 4) {
@@ -55,62 +51,39 @@ export function useCourt(activePlayers, isEvenMode, getNextQueueNumber, sortedSu
         }
     };
 
-    // จบเกมในสนาม และส่งผู้เล่นกลับเข้าคิวรอ
     const finishMatch = (courtIdx) => {
         const court = courts.value[courtIdx];
 
+        // 1. ดึงตัวผู้เล่นในสนามเทียบกับ activePlayers
+        let targets = court.players.map(p => activePlayers.value.find(ap => ap.id === p.id)).filter(Boolean);
+
+        // 2. สับเปลี่ยนลำดับ (Shuffle) ผู้เล่นที่จบเกมก่อนไปต่อท้ายคิว
+        for (let i = targets.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [targets[i], targets[j]] = [targets[j], targets[i]];
+        }
+
+        // 3. แจกคิวและอัปเดตสถิติตามลำดับใหม่ที่สุ่มแล้ว
         if (isEvenMode.value && court.players.length === 4) {
-            let p1 = court.players[0];
-            let p2 = court.players[1];
-            let p3 = court.players[2];
-            let p4 = court.players[3];
-
-            let t1 = activePlayers.value.find(ap => ap.id === p1.id);
-            let t2 = activePlayers.value.find(ap => ap.id === p2.id);
-            if (t1) {
-                t1.gameCount += 1;
-                t1.pairGameCount = (t1.pairGameCount || 0) + 1;
-                t1.status = 'waiting';
-                t1.queuedAt = getNextQueueNumber();
-            }
-            if (t2) {
-                t2.gameCount += 1;
-                t2.pairGameCount = (t2.pairGameCount || 0) + 1;
-                t2.status = 'waiting';
-                t2.queuedAt = getNextQueueNumber();
-            }
-
-            let t3 = activePlayers.value.find(ap => ap.id === p3.id);
-            let t4 = activePlayers.value.find(ap => ap.id === p4.id);
-            if (t3) {
-                t3.gameCount += 1;
-                t3.pairGameCount = (t3.pairGameCount || 0) + 1;
-                t3.status = 'waiting';
-                t3.queuedAt = getNextQueueNumber();
-            }
-            if (t4) {
-                t4.gameCount += 1;
-                t4.pairGameCount = (t4.pairGameCount || 0) + 1;
-                t4.status = 'waiting';
-                t4.queuedAt = getNextQueueNumber();
-            }
+            targets.forEach(t => {
+                t.gameCount += 1;
+                t.pairGameCount = (t.pairGameCount || 0) + 1;
+                t.status = 'waiting';
+                t.queuedAt = getNextQueueNumber();
+            });
         } else {
-            court.players.forEach(p => {
-                const target = activePlayers.value.find(ap => ap.id === p.id);
-                if (target) {
-                    target.gameCount += 1;
-                    target.status = 'waiting';
-                    target.queuedAt = getNextQueueNumber();
-                }
+            targets.forEach(t => {
+                t.gameCount += 1;
+                t.status = 'waiting';
+                t.queuedAt = getNextQueueNumber();
             });
         }
 
         court.players = [];
         court.status = 'idle';
-        showToast(`${court.name} จบเกมแล้ว กรุณากดหาคู่ลงเล่นคิวถัดไป`);
+        showToast(`${court.name} จบเกมแล้ว (ผู้เล่นถูกสุ่มลำดับต่อท้ายคิว)`);
     };
 
-    // จบกิจกรรมประจำวัน (บันทึกประวัติ และรีเซ็ต Session)
     const endDaySession = () => {
         openConfirm({
             title: 'จบกิจกรรมวันนี้?',
