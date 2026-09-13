@@ -207,7 +207,7 @@ createApp({
             if (toastTimer) clearTimeout(toastTimer);
             toastTimer = setTimeout(() => {
                 toast.value.show = false;
-            }, 5000);
+            }, 2000);
         };
 
         const formatDate = (timestamp) => {
