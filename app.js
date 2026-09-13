@@ -27,8 +27,47 @@ createApp({
         const allSessionPlayers = ref([]);
         const shuttlecockCount = ref(0);
 
-        // [แก้ไขจุดที่พัง] ประกาศ state ที่ขาดหายไป
+        // State สำหรับควบคุมคำอธิบายคิว
         const showQueueInfoModal = ref(false);
+
+        // State สำหรับ Custom Confirm & Alert Modal
+        const confirmModal = ref({
+            show: false,
+            title: '',
+            message: '',
+            type: 'danger', // danger, warning, info
+            confirmText: 'ตกลง',
+            cancelText: 'ยกเลิก',
+            isAlert: false,
+            onConfirm: null
+        });
+
+        const openConfirm = (options) => {
+            confirmModal.value = {
+                show: true,
+                title: options.title || 'ยืนยันการทำรายการ',
+                message: options.message || '',
+                type: options.type || 'danger',
+                confirmText: options.confirmText || 'ตกลง',
+                cancelText: options.cancelText || 'ยกเลิก',
+                isAlert: options.isAlert || false,
+                onConfirm: options.onConfirm || null
+            };
+        };
+
+        const closeConfirm = () => {
+            confirmModal.value.show = false;
+            setTimeout(() => {
+                confirmModal.value.onConfirm = null;
+            }, 200);
+        };
+
+        const executeConfirm = () => {
+            if (confirmModal.value.onConfirm) {
+                confirmModal.value.onConfirm();
+            }
+            closeConfirm();
+        };
 
         // ตัวแปรนับลำดับคิว (ใช้สำหรับจัดคิวแบบ FIFO ใครค่าน้อย = รอนานสุด)
         let queueCounter = 0;
@@ -53,7 +92,7 @@ createApp({
         const showReorderModal = ref(false);
         const tempReorderQueue = ref([]);
         const draggedIndex = ref(null);
-        const targetDropIndex = ref(null); // เก็บตำแหน่งที่กำลังลอยไปทับเพื่อทำช่องว่างเว้นรอ
+        const targetDropIndex = ref(null);
         const isHandlePressed = ref(false);
 
         const openReorderModal = () => {
@@ -87,7 +126,7 @@ createApp({
         const onDragOver = (e, index) => {
             e.preventDefault();
             if (draggedIndex.value !== null && targetDropIndex.value !== index) {
-                targetDropIndex.value = index; // อัปเดตตำแหน่งที่ลอยไปทับเพื่อขยับการ์ดเว้นช่อง
+                targetDropIndex.value = index;
             }
         };
 
@@ -230,15 +269,21 @@ createApp({
             }
         };
 
-        const deleteMember = async (id) => {
-            if (confirm("คุณต้องการลบรายชื่อนี้ใช่หรือไม่?")) {
-                try {
-                    await deleteDoc(doc(db, "members", id));
-                    showToast('ลบรายชื่อสำเร็จ');
-                } catch (error) {
-                    console.error(error);
+        const deleteMember = (id) => {
+            openConfirm({
+                title: 'ลบรายชื่อผู้เล่น?',
+                message: 'คุณต้องการลบรายชื่อนี้ใช่หรือไม่?',
+                type: 'danger',
+                confirmText: 'ลบรายชื่อ',
+                onConfirm: async () => {
+                    try {
+                        await deleteDoc(doc(db, "members", id));
+                        showToast('ลบรายชื่อสำเร็จ');
+                    } catch (error) {
+                        console.error(error);
+                    }
                 }
-            }
+            });
         };
 
         const viewHistoryPlayers = (history) => {
@@ -250,28 +295,40 @@ createApp({
             selectedHistory.value = null;
         };
 
-        const deleteHistory = async (id) => {
-            if (confirm("คุณต้องการลบประวัติรายการนี้ใช่หรือไม่?")) {
-                try {
-                    await deleteDoc(doc(db, "session_history", id));
-                    showToast('ลบประวัติสำเร็จ');
-                } catch (error) {
-                    console.error(error);
+        const deleteHistory = (id) => {
+            openConfirm({
+                title: 'ลบประวัติการเล่น?',
+                message: 'คุณต้องการลบประวัติรายการนี้ใช่หรือไม่?',
+                type: 'danger',
+                confirmText: 'ลบข้อมูล',
+                onConfirm: async () => {
+                    try {
+                        await deleteDoc(doc(db, "session_history", id));
+                        showToast('ลบประวัติสำเร็จ');
+                    } catch (error) {
+                        console.error(error);
+                    }
                 }
-            }
+            });
         };
 
-        const deleteAllHistory = async () => {
-            if (confirm("ยืนยันการลบประวัติการเล่น 'ทั้งหมด' ใช่หรือไม่? (ไม่สามารถกู้คืนได้)")) {
-                try {
-                    for (const h of histories.value) {
-                        await deleteDoc(doc(db, "session_history", h.id));
+        const deleteAllHistory = () => {
+            openConfirm({
+                title: 'ลบประวัติทั้งหมด?',
+                message: 'ยืนยันการลบประวัติการเล่น "ทั้งหมด" ใช่หรือไม่? (ไม่สามารถกู้คืนได้)',
+                type: 'danger',
+                confirmText: 'ลบทิ้งทั้งหมด',
+                onConfirm: async () => {
+                    try {
+                        for (const h of histories.value) {
+                            await deleteDoc(doc(db, "session_history", h.id));
+                        }
+                        showToast('ลบประวัติทั้งหมดสำเร็จ');
+                    } catch (error) {
+                        console.error(error);
                     }
-                    showToast('ลบประวัติทั้งหมดสำเร็จ');
-                } catch (error) {
-                    console.error(error);
                 }
-            }
+            });
         };
 
         const isEvenMode = computed(() => {
@@ -420,13 +477,19 @@ createApp({
         };
 
         const dissolvePairs = () => {
-            if (confirm("คุณต้องการละลายคู่ทั้งหมดใช่หรือไม่? (สถิติจำนวนเกมรายบุคคลยังอยู่ แต่จะรีเซ็ตจำนวนรอบของคู่เป็น 0)")) {
-                activePlayers.value.forEach(p => {
-                    p.partnerId = null;
-                    p.pairGameCount = 0;
-                });
-                showToast('ละลายคู่ผู้เล่นและรีเซ็ตสถิติรอบคู่เป็น 0 แล้ว');
-            }
+            openConfirm({
+                title: 'ละลายคู่ทั้งหมด?',
+                message: 'คุณต้องการละลายคู่ทั้งหมดใช่หรือไม่? (สถิติเกมรายบุคคลยังอยู่ แต่จะรีเซ็ตจำนวนรอบคู่เป็น 0)',
+                type: 'warning',
+                confirmText: 'ละลายคู่',
+                onConfirm: () => {
+                    activePlayers.value.forEach(p => {
+                        p.partnerId = null;
+                        p.pairGameCount = 0;
+                    });
+                    showToast('ละลายคู่ผู้เล่นและรีเซ็ตสถิติรอบคู่เป็น 0 แล้ว');
+                }
+            });
         };
 
         const openMatchModal = (index) => {
@@ -472,7 +535,13 @@ createApp({
                     closeMatchModal();
                     showToast(`จัด 2 คู่ลง ${court.name} เรียบร้อย`);
                 } else {
-                    alert('คู่ที่รอคิวมีไม่ถึง 2 คู่ หรือยังไม่ได้จับคู่ผู้เล่น');
+                    openConfirm({
+                        title: 'ไม่สามารถจัดคู่ได้',
+                        message: 'คู่ที่รอคิวมีไม่ถึง 2 คู่ หรือยังไม่ได้จับคู่ผู้เล่น กรุณาจับคู่ผู้เล่นก่อนครับ',
+                        type: 'warning',
+                        confirmText: 'เข้าใจแล้ว',
+                        isAlert: true
+                    });
                 }
             } else {
                 const available = waitingQueue.value;
@@ -489,7 +558,13 @@ createApp({
                     closeMatchModal();
                     showToast(`จัดผู้เล่นลง ${court.name} เรียบร้อย`);
                 } else {
-                    alert('ผู้เล่นที่รอคิวมีไม่ถึง 4 คน');
+                    openConfirm({
+                        title: 'ไม่สามารถจัดคิวได้',
+                        message: 'ผู้เล่นที่รอคิวมีไม่ถึง 4 คน',
+                        type: 'warning',
+                        confirmText: 'เข้าใจแล้ว',
+                        isAlert: true
+                    });
                 }
             }
         };
@@ -532,10 +607,16 @@ createApp({
 
         const cancelMatch = (courtIdx) => {
             const court = courts.value[courtIdx];
-            if (confirm(`คุณต้องการยกเลิกการแข่งขันบน ${court.name} ใช่หรือไม่? (ผู้เล่นจะกลับเข้าคิวรอโดยไม่นับสถิติเกม)`)) {
-                clearCourt(courtIdx);
-                showToast(`ยกเลิกการแข่งขันบน ${court.name} เรียบร้อยแล้ว`);
-            }
+            openConfirm({
+                title: `ยกเลิกการแข่ง ${court.name}?`,
+                message: 'ผู้เล่นจะกลับเข้าคิวรอโดยไม่นับสถิติเกม คุณต้องการยกเลิกใช่หรือไม่?',
+                type: 'warning',
+                confirmText: 'ยกเลิกเกม',
+                onConfirm: () => {
+                    clearCourt(courtIdx);
+                    showToast(`ยกเลิกการแข่งขันบน ${court.name} เรียบร้อยแล้ว`);
+                }
+            });
         };
 
         const startMatch = (courtIdx) => {
@@ -604,38 +685,50 @@ createApp({
             showToast(`${court.name} จบเกมแล้ว กรุณากดหาคู่ลงเล่นคิวถัดไป`);
         };
 
-        const endDaySession = async () => {
-            if (confirm("คุณต้องการจบกิจกรรมวันนี้ใช่หรือไม่? ข้อมูลการเล่นจะถูกบันทึกลงประวัติและล้างสถิติสำหรับวันนี้")) {
-                if (sortedSummaryPlayers.value.length > 0) {
-                    try {
-                        const historyData = {
-                            createdAt: serverTimestamp(),
-                            shuttlecockCount: shuttlecockCount.value,
-                            playerCount: sortedSummaryPlayers.value.length,
-                            players: sortedSummaryPlayers.value.map(p => ({
-                                name: p.name,
-                                gameCount: p.gameCount,
-                                isLeftEarly: !activePlayers.value.some(ap => ap.id === p.id)
-                            }))
-                        };
-                        await addDoc(collection(db, "session_history"), historyData);
-                    } catch (e) {
-                        console.error(e);
-                        alert("เกิดข้อผิดพลาดในการบันทึกประวัติ");
+        const endDaySession = () => {
+            openConfirm({
+                title: 'จบกิจกรรมวันนี้?',
+                message: 'ข้อมูลการเล่นจะถูกบันทึกลงประวัติและล้างสถิติสำหรับวันนี้ คุณต้องการทำต่อใช่หรือไม่?',
+                type: 'info',
+                confirmText: 'จบกิจกรรม',
+                onConfirm: async () => {
+                    if (sortedSummaryPlayers.value.length > 0) {
+                        try {
+                            const historyData = {
+                                createdAt: serverTimestamp(),
+                                shuttlecockCount: shuttlecockCount.value,
+                                playerCount: sortedSummaryPlayers.value.length,
+                                players: sortedSummaryPlayers.value.map(p => ({
+                                    name: p.name,
+                                    gameCount: p.gameCount,
+                                    isLeftEarly: !activePlayers.value.some(ap => ap.id === p.id)
+                                }))
+                            };
+                            await addDoc(collection(db, "session_history"), historyData);
+                        } catch (e) {
+                            console.error(e);
+                            openConfirm({
+                                title: 'เกิดข้อผิดพลาด',
+                                message: 'เกิดข้อผิดพลาดในการบันทึกประวัติ',
+                                type: 'danger',
+                                confirmText: 'ตกลง',
+                                isAlert: true
+                            });
+                        }
                     }
-                }
 
-                selectedPlayerIds.value = [];
-                activePlayers.value = [];
-                allSessionPlayers.value = [];
-                shuttlecockCount.value = 0;
-                courts.value.forEach(c => {
-                    c.players = [];
-                    c.status = 'idle';
-                });
-                currentScreen.value = 'home';
-                showToast('บันทึกและจบกิจกรรมวันนี้เรียบร้อยแล้ว');
-            }
+                    selectedPlayerIds.value = [];
+                    activePlayers.value = [];
+                    allSessionPlayers.value = [];
+                    shuttlecockCount.value = 0;
+                    courts.value.forEach(c => {
+                        c.players = [];
+                        c.status = 'idle';
+                    });
+                    currentScreen.value = 'home';
+                    showToast('บันทึกและจบกิจกรรมวันนี้เรียบร้อยแล้ว');
+                }
+            });
         };
 
         onMounted(() => {
@@ -671,6 +764,9 @@ createApp({
             manualPairMode,
             tempSelectedPair,
             showQueueInfoModal,
+            confirmModal,
+            closeConfirm,
+            executeConfirm,
             showReorderModal,
             tempReorderQueue,
             draggedIndex,
